@@ -1,0 +1,21 @@
+🟢 Kafka Start at Windows
+zookeeper-server-start.bat ..\..\config\zookeeper.properties
+kafka-server-start.bat ..\..\config\server.properties
+#Audit/Check
+Path: ...\kafka_2.13-3.8.0\bin\windows
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic my-topic --from-beginning
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic my-topic --from-beginning -property "key.separator=-" --property "print.key=false"
+
+Starting the Docker Compose Setup
+>> docker-compose up -d
+
+CMAK
+GET: http://localhost:9000/clusters/cluster-1/topics/my-topic
+
+
+Creating the Spring Boot Application Docker Image
+docker build -t spring-boot-kafka .
+
+Sending Messages with Curl
+# curl -XPOST -H "Content-Type: application/vnd.kafka.json.v2+json" --data '{"key": "my-key", "value": "my-message"}' http://localhost:9000/clusters/cluster-1/topics/my-topic
+curl -X POST "http://localhost:8080/kafka/publish?key=myKey&message=Hello+from+Kafka"
